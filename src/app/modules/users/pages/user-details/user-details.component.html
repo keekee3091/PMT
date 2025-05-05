@@ -1,4 +1,9 @@
-<div class="container mt-4">
-    <h2>Détails de l'utilisateur</h2>
-    <p>ID: {{ userId }}</p>
-  </div>
+<div class="container mt-4" *ngIf="user">
+  <h2>Détails de l'utilisateur</h2>
+  <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+  <p><strong>Email :</strong> {{ user.email }}</p>
+</div>
+
+<div *ngIf="!user">
+  <p>Chargement...</p>
+</div>

@@ -25,4 +25,13 @@ export class UserService {
   createUser(userData: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, userData);
   }
+
+  loginUser(userData: any): Observable<any> {
+    return this.http.get<any>(this.apiUrl, userData)
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
 }

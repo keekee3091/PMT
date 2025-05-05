@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\modules",
+    "\\src\\app\\modules\\projects",
+    "\\src\\app\\modules\\projects\\services",
+    "\\src\\app\\modules\\tasks",
+    "\\src\\app\\modules\\tasks\\model",
+    "\\src\\app\\modules\\users"
+  ],
+  "SelectedNode": "\\package.json",
+  "PreviewInSolutionExplorer": false
+}

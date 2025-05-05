@@ -13,31 +13,53 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./form-users.component.scss']
 })
 export class FormUsersComponent implements OnInit {
-  userForm!: FormGroup;
+  registerForm!: FormGroup;
+  loginForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onSubmit(): void {
-    if (this.userForm.valid) {
-      this.userService.createUser(this.userForm.value).subscribe({
+  onRegister(): void {
+    if (this.registerForm.valid) {
+      this.userService.createUser(this.registerForm.value).subscribe({
         next: () => {
-          alert('Utilisateur ajouté avec succès !');
-          this.router.navigate(['/users']);
+          alert('Inscription réussie !');
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          console.error('Erreur lors de l\'ajout de l\'utilisateur :', err);
-          alert('Une erreur est survenue.');
+          console.error('Erreur inscription :', err);
+          alert('Erreur lors de l’inscription.');
+        }
+      });
+    }
+  }
+
+  onLogin(): void {
+    if (this.loginForm.valid) {
+      this.userService.loginUser(this.loginForm.value).subscribe({
+        next: () => {
+          alert('Connexion réussie !');
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.error('Erreur login :', err);
+          alert('Email ou mot de passe incorrect');
         }
       });
     }
