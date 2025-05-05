@@ -14,17 +14,18 @@ public class Task {
     private String description;
     private String dueDate;
     private String priority;
-    private String status; // "TODO", "IN_PROGRESS", "DONE"
+    private String status; 
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    // ✅ Default constructor (required by JPA)
-    public Task() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "assigned_to_id")
+    private User assignedTo;
 
-    // ✅ Constructor for new tasks (without ID)
+    public Task() {}
+
     public Task(String title, String description, String dueDate, String priority, String status, Project project) {
         this.title = title;
         this.description = description;
@@ -34,7 +35,6 @@ public class Task {
         this.project = project;
     }
 
-    // ✅ Constructor including ID (for testing & retrieval)
     public Task(Long id, String title, String description, String dueDate, String priority, String status, Project project) {
         this.id = id;
         this.title = title;
@@ -45,7 +45,6 @@ public class Task {
         this.project = project;
     }
 
-    // ✅ Getters and Setters
     public Long getId() {
         return id;
     }
@@ -100,5 +99,13 @@ public class Task {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 }

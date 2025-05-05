@@ -1,11 +1,12 @@
 package com.ISCOD_Eval.pmt_backend.models;
-
+import java.util.List;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "project")
 public class Project {
 
     @Id
@@ -18,14 +19,15 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)  // ✅ Automatically deletes projects when owner is deleted
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User owner;
 
-    // ✅ Default constructor (required by JPA)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ProjectMember> members;
     public Project() {
     }
 
-    // ✅ Constructor for new projects (without ID)
     public Project(String name, String description, String startDate, User owner) {
         this.name = name;
         this.description = description;
@@ -33,7 +35,6 @@ public class Project {
         this.owner = owner;
     }
 
-    // ✅ Constructor including ID (for testing & retrieval)
     public Project(Long id, String name, String description, String startDate, User owner) {
         this.id = id;
         this.name = name;
@@ -42,7 +43,6 @@ public class Project {
         this.owner = owner;
     }
 
-    // ✅ Getters and Setters
     public Long getId() {
         return id;
     }
@@ -81,5 +81,12 @@ public class Project {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+    public List<ProjectMember> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<ProjectMember> members) {
+        this.members = members;
     }
 }

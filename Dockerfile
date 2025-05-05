@@ -1,14 +1,10 @@
-# Utiliser une image officielle de Java 21
-FROM openjdk:21-jdk-slim
-
-# Définir le répertoire de travail
+FROM maven:3.9.5-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copier le fichier JAR dans le conteneur
-COPY target/*.jar app.jar
-
-# Exposer le port de l'application
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Lancer l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
